@@ -1,0 +1,11 @@
+@import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
+
+html {
+   font-size: 62.5%;
+}
+
+#custom-doc {
+	width: 75%;
+	min-width: 250px;
+	font-family: "Georgia", serif;
+}
