@@ -3,8 +3,9 @@
 var App = App || angular.module('autorpg', []);
 App.controller('PartyController', function($scope, websocket) {
 	$scope.controllerReady = "ready";
-	websocket.onmessage = function(evt) {
-		alert(evt.data);
-		$scope.controllerReady = evt.data;
-	};
+	websocket.listen(function(data) {
+		websocket.send(data);
+		alert(data);
+		$scope.controllerReady = data;
+	});
 });

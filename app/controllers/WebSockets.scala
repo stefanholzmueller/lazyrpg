@@ -22,7 +22,7 @@ object WebSockets extends Controller {
 			println("Disconnected")
 		}
 
-		val out = Enumerator[JsValue](JsString("Hello!"))
+		val out = Enumerator[JsValue](JsString("Hello!"), JsString("Hello2!"))
 
 		Future(in, out)
 
