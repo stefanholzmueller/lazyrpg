@@ -6,12 +6,12 @@ App.factory('websocket', function($rootScope) {
 	var socket = new WS("ws://localhost:9000/ws/party?username=test")
 	return {
 		listen : function(callback) {
-			socket.onmessage = function(msg) {
-				$rootScope.$apply(callback(msg.data));
+			socket.onmessage = function(event) {
+				$rootScope.$apply(callback(event.data));
 			}
 		},
-		send : function(data) {
-			socket.send(data);
+		send : function(msg) {
+			socket.send(msg);
 		}
 	};
 });
