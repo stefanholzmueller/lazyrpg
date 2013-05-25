@@ -2,8 +2,8 @@
 
 var App = App || angular.module('lazyrpg', []);
 App.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.when('/party', {
-		templateUrl : 'party.html',
-		controller : 'PartyController'
-	});
+//	$routeProvider.when('/play', {
+//		templateUrl : 'play.html',
+//		controller : 'PlayerController'
+//	});
 } ]);

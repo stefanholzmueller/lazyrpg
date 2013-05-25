@@ -3,7 +3,7 @@
 var App = App || angular.module('lazyrpg', []);
 App.factory('websocket', function($rootScope) {
 	var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
-	var socket = new WS("ws://localhost:9000/ws/party?username=test")
+	var socket = new WS("ws://localhost:9000/ws/player?username=tester")
 	return {
 		listen : function(callback) {
 			socket.onmessage = function(event) {
