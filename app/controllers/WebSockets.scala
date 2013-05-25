@@ -25,10 +25,10 @@ object WebSockets extends Controller {
 		val playerActor = Akka.system.actorOf(Props[Player])
 
 		WebSocket.async[JsValue] { request =>
-			(playerActor ? StartPlaying(username)).map {
-				case StartedPlaying(enumerator) => {
-					Akka.system.scheduler.scheduleOnce(1 seconds, playerActor, KilledCritter())
 
+			(playerActor ? StartPlaying(username)).map {
+
+				case StartedPlaying(enumerator) => {
 					val iteratee = Iteratee.foreach[JsValue](println).mapDone { _ =>
 						println("Disconnected")
 					}

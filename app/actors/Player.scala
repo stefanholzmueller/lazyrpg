@@ -1,12 +1,16 @@
 package actors
 
-import play.api.libs.iteratee.Concurrent
-import play.api.libs.json.JsValue
+import scala.concurrent.duration.DurationInt
+
 import akka.actor.Actor
-import play.api.libs.json.JsObject
-import play.api.libs.json.JsString
+import akka.actor.actorRef2Scala
 import controllers.StartPlaying
 import controllers.StartedPlaying
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.iteratee.Concurrent
+import play.api.libs.json.JsObject
+import play.api.libs.json.JsString
+import play.api.libs.json.JsValue
 
 class Player extends Actor {
 
@@ -18,18 +22,21 @@ class Player extends Actor {
 
 		case StartPlaying(username) => {
 			name = username
+			context.system.scheduler.scheduleOnce(1 seconds, self, KilledCritter(1))
 			sender ! StartedPlaying(chatEnumerator)
 		}
 
-		case KilledCritter() => {
+		case KilledCritter(duration) => {
 			val msg = JsObject(
 				Seq(
-					"message" -> JsString("You killed a critter. Good job!")))
+					"message" -> JsString(s"You killed a critter in $duration seconds. Good job!")))
 			chatChannel.push(msg)
+			val next = duration * 2
+			context.system.scheduler.scheduleOnce(next seconds, self, KilledCritter(next))
 		}
 	}
 
 }
 
 case class Talk(text: String)
-case class KilledCritter()
+case class KilledCritter(duration: Int)
