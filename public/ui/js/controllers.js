@@ -1,6 +1,6 @@
 'use strict';
 
-var App = App || angular.module('autorpg', []);
+var App = App || angular.module('lazyrpg', []);
 App.controller('PartyController', function($scope, websocket) {
 	$scope.controllerReady = "ready";
 	websocket.listen(function(msg) {
