@@ -1,10 +1,14 @@
 'use strict';
 
 var App = App || angular.module('lazyrpg', []);
-App.controller('PlayerController', function($scope, websocket) {
+App.controller('PlayerController', function($scope, wsFactory) {
+	var escapedUsername = "tester";
+	var wsUrl = "ws://" + document.location.host + "/ws/player?username=" + escapedUsername;
+	var ws = wsFactory(wsUrl);
+	
 	$scope.controllerReady = "ready";
-	websocket.listen(function(msg) {
-		websocket.send(msg);
+	ws.listen(function(msg) {
+		ws.send(msg);
 //		alert(msg);
 		$scope.controllerReady = msg;
 	});
