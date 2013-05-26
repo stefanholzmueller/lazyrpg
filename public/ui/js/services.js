@@ -6,6 +6,16 @@ App.factory('wsFactory', function($rootScope) {
 		var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 		var socket = new WS(wsUrl);
 		
+		socket.onopen = function() {
+//			alert("ws opened!");
+		};
+		socket.onclose = function() {
+//			alert("ws closed!");
+		};
+		socket.onerror = function(event) {
+			alert("ws error: " + event.data);
+		};
+		
 		return {
 			listen : function(callback) {
 				socket.onmessage = function(event) {
