@@ -1,6 +1,7 @@
 package actors
 
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 import akka.actor.Actor
 import akka.actor.actorRef2Scala
@@ -24,6 +25,7 @@ class Player extends Actor {
 			name = username
 			context.system.scheduler.scheduleOnce(1 seconds, self, KilledCritter(1))
 			sender ! StartedPlaying(chatEnumerator)
+			sender ! BeginAdventure()
 		}
 
 		case KilledCritter(duration) => {
@@ -40,3 +42,4 @@ class Player extends Actor {
 
 case class Talk(text: String)
 case class KilledCritter(duration: Int)
+case class BeginAdventure()
