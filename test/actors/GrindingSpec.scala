@@ -1,22 +1,20 @@
-import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
+
+import scala.concurrent.duration.FiniteDuration
+
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.WordSpec
 import org.scalatest.matchers.MustMatchers
-import actors.BeginAdventure
-import actors.Player
+
+import actors.GainXp
+import actors.Grinding
+import actors.KilledSomething
+import actors.StartGrinding
 import akka.actor.ActorSystem
 import akka.actor.Props
 import akka.actor.actorRef2Scala
 import akka.testkit.ImplicitSender
 import akka.testkit.TestKit
-import controllers.StartPlaying
-import controllers.StartedPlaying
-import actors.StartGrinding
-import actors.Grinding
-import actors.GainXp
-import scala.concurrent.duration.FiniteDuration
-import java.util.concurrent.TimeUnit
-import com.typesafe.config.ConfigFactory
 
 class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 	with ImplicitSender with WordSpec with MustMatchers with BeforeAndAfterAll {
@@ -34,8 +32,10 @@ class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 
 			grinding ! StartGrinding()
 
-			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
-			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[KilledSomething])
+			expectMsgClass(FiniteDuration(1, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[KilledSomething])
+			expectMsgClass(FiniteDuration(1, TimeUnit.SECONDS), classOf[GainXp])
 		}
 
 	}

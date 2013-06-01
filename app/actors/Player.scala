@@ -1,19 +1,17 @@
 package actors
 
-import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
 import akka.actor.Actor
+import akka.actor.ActorLogging
+import akka.actor.Props
 import akka.actor.actorRef2Scala
 import controllers.StartPlaying
 import controllers.StartedPlaying
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.Concurrent
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
-import akka.actor.Props
 
-class Player(username: String) extends Actor {
+class Player(username: String) extends Actor with ActorLogging {
 
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
@@ -32,6 +30,10 @@ class Player(username: String) extends Actor {
 				Seq(
 					"message" -> JsString("You killed a critter. Good job!")))
 			chatChannel.push(msg)
+		}
+
+		case GainXp(xp) => {
+			// TODO
 		}
 	}
 

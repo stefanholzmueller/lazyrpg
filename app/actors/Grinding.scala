@@ -28,7 +28,7 @@ class Grinding(player: ActorRef) extends Actor {
 		}
 
 		case KilledSomething() => {
-			player.forward(_)
+			player ! KilledSomething()
 			player ! GainXp(randomRange(3, 6))
 			self ! StartGrinding() // endless
 		}

@@ -1,7 +1,7 @@
-import org.junit.runner.RunWith
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.WordSpec
 import org.scalatest.matchers.MustMatchers
+
 import actors.BeginAdventure
 import actors.Player
 import akka.actor.ActorSystem
