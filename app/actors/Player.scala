@@ -4,6 +4,7 @@ import akka.actor.Actor
 import akka.actor.ActorLogging
 import akka.actor.Props
 import akka.actor.actorRef2Scala
+import akka.event.LoggingReceive
 import controllers.StartPlaying
 import controllers.StartedPlaying
 import play.api.libs.iteratee.Concurrent
@@ -15,7 +16,7 @@ class Player(username: String) extends Actor with ActorLogging {
 
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
-	def receive = {
+	def receive = LoggingReceive {
 
 		case StartPlaying() => {
 			sender ! StartedPlaying(chatEnumerator)
