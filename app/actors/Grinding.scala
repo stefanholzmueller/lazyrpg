@@ -19,7 +19,7 @@ class Grinding(player: ActorRef) extends Actor {
 	 */
 	def randomRange(min: Int, max: Int) = random.nextInt(max - min + 1) + min
 
-	def grindDelay() = FiniteDuration(randomRange(2, 4), TimeUnit.SECONDS)
+	def grindDelay() = FiniteDuration(randomRange(5, 10), TimeUnit.SECONDS)
 
 	def receive = {
 
@@ -28,7 +28,7 @@ class Grinding(player: ActorRef) extends Actor {
 		}
 
 		case KilledSomething() => {
-			player ! GainXp(5)
+			player ! GainXp(randomRange(3, 6))
 			self ! StartGrinding() // endless
 		}
 

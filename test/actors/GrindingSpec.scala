@@ -16,6 +16,7 @@ import actors.Grinding
 import actors.GainXp
 import scala.concurrent.duration.FiniteDuration
 import java.util.concurrent.TimeUnit
+import com.typesafe.config.ConfigFactory
 
 class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 	with ImplicitSender with WordSpec with MustMatchers with BeforeAndAfterAll {
@@ -33,7 +34,8 @@ class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 
 			grinding ! StartGrinding()
 
-			expectMsgClass(FiniteDuration(5, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
 		}
 
 	}
