@@ -13,17 +13,13 @@ import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
 import akka.actor.Props
 
-class Player extends Actor {
+class Player(username: String) extends Actor {
 
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
-	var name: Option[String] = None
-
 	def receive = {
 
-		case StartPlaying(username) => {
-			name = Some(username)
-
+		case StartPlaying() => {
 			sender ! StartedPlaying(chatEnumerator)
 			sender ! BeginAdventure()
 
@@ -31,18 +27,15 @@ class Player extends Actor {
 			grinding ! StartGrinding()
 		}
 
-		case KilledCritter(duration) => {
+		case KilledSomething() => {
 			val msg = JsObject(
 				Seq(
-					"message" -> JsString(s"You killed a critter in $duration seconds. Good job!")))
+					"message" -> JsString("You killed a critter. Good job!")))
 			chatChannel.push(msg)
-			val next = duration * 2
-			context.system.scheduler.scheduleOnce(next seconds, self, KilledCritter(next))
 		}
 	}
 
 }
 
-case class KilledCritter(duration: Int)
 case class BeginAdventure()
 case class GainXp(xp: Int)

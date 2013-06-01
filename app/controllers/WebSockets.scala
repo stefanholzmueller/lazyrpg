@@ -20,11 +20,11 @@ object WebSockets extends Controller {
 	implicit val timeout = Timeout(1 second) // needed for `?`
 
 	def player(username: String): WebSocket[JsValue] = {
-		val playerActor = Akka.system.actorOf(Props[Player])
+		val playerActor = Akka.system.actorOf(Props(new Player(username)))
 
 		WebSocket.async[JsValue] { request =>
 
-			(playerActor ? StartPlaying(username)).map {
+			(playerActor ? StartPlaying()).map {
 
 				case StartedPlaying(enumerator) => {
 					val iteratee = Iteratee.foreach[JsValue](println).mapDone { _ =>
@@ -39,5 +39,5 @@ object WebSockets extends Controller {
 
 }
 
-case class StartPlaying(username: String)
+case class StartPlaying()
 case class StartedPlaying(enumerator: Enumerator[JsValue])

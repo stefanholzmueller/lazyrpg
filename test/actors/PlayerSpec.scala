@@ -24,9 +24,9 @@ class PlayerSpec(_system: ActorSystem) extends TestKit(_system)
 	"A Player actor" must {
 
 		"start playing" in {
-			val player = system.actorOf(Props[Player])
+			val player = system.actorOf(Props(new Player("player1")))
 
-			player ! StartPlaying("player1")
+			player ! StartPlaying()
 
 			expectMsgClass(classOf[StartedPlaying])
 			expectMsg(BeginAdventure())
