@@ -2,7 +2,6 @@ package actors
 
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-
 import akka.actor.Actor
 import akka.actor.actorRef2Scala
 import controllers.StartPlaying
@@ -12,20 +11,24 @@ import play.api.libs.iteratee.Concurrent
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
+import akka.actor.Props
 
 class Player extends Actor {
 
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
-	var name = ""
+	var name: Option[String] = None
 
 	def receive = {
 
 		case StartPlaying(username) => {
-			name = username
-			context.system.scheduler.scheduleOnce(1 seconds, self, KilledCritter(1))
+			name = Some(username)
+
 			sender ! StartedPlaying(chatEnumerator)
 			sender ! BeginAdventure()
+
+			val grinding = context.system.actorOf(Props(new Grinding(self)))
+			grinding ! StartGrinding()
 		}
 
 		case KilledCritter(duration) => {
@@ -40,6 +43,6 @@ class Player extends Actor {
 
 }
 
-case class Talk(text: String)
 case class KilledCritter(duration: Int)
 case class BeginAdventure()
+case class GainXp(xp: Int)

@@ -11,25 +11,29 @@ import akka.testkit.ImplicitSender
 import akka.testkit.TestKit
 import controllers.StartPlaying
 import controllers.StartedPlaying
+import actors.StartGrinding
+import actors.Grinding
+import actors.GainXp
+import scala.concurrent.duration.FiniteDuration
+import java.util.concurrent.TimeUnit
 
-class PlayerSpec(_system: ActorSystem) extends TestKit(_system)
+class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 	with ImplicitSender with WordSpec with MustMatchers with BeforeAndAfterAll {
 
-	def this() = this(ActorSystem("Player"))
+	def this() = this(ActorSystem("Grinding"))
 
 	override def afterAll {
 		system.shutdown()
 	}
 
-	"A Player actor" must {
+	"A Grinding actor" must {
 
-		"start playing" in {
-			val player = system.actorOf(Props[Player])
+		"start grinding" in {
+			val grinding = system.actorOf(Props(new Grinding(testActor)))
 
-			player ! StartPlaying("player1")
+			grinding ! StartGrinding()
 
-			expectMsgClass(classOf[StartedPlaying])
-			expectMsg(BeginAdventure())
+			expectMsgClass(FiniteDuration(5, TimeUnit.SECONDS), classOf[GainXp])
 		}
 
 	}
