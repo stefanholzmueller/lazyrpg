@@ -9,18 +9,20 @@
 <script src="js/services.js"></script>
 </head>
 <body class="yui-skin-sam" ng-app="lazyrpg">
-	<div id="custom-doc" class="yui-t3">
-		<div id="hd" ng-controller="PlayerController">
-			<h1>{{controllerReady}}</h1>
+	<div id="custom-doc" class="yui-t3" ng-controller="PlayerController">
+		<div id="hd">
+			<h1>{{connectionStatus}}</h1>
 		</div>
 		<div id="bd">
 			<div class="yui-b">
-				Members:
+				Your Character:
 			</div>
 			<div id="yui-main">
 				<div class="yui-b">
 					<div class="yui-g">
-						Entering the game ...
+						<div ng-repeat="entry in log">
+							{{entry.text}}<br>
+						</div>
 					</div>
 				</div>
 			</div>

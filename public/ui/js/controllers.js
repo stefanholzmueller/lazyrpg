@@ -3,13 +3,21 @@
 var App = App || angular.module('lazyrpg', []);
 App.controller('PlayerController', function($scope, wsFactory) {
 	var escapedUsername = "tester";
-	var wsUrl = "ws://" + document.location.host + "/ws/player?username=" + escapedUsername;
-	var ws = wsFactory(wsUrl);
 	
-	$scope.controllerReady = "ready";
-	ws.listen(function(msg) {
-		ws.send(msg);
-//		alert(msg);
-		$scope.controllerReady = msg;
+	var host = document.location.host;
+	var wsUrl = "ws://" + host + "/ws/player?username=" + escapedUsername;
+	var ws = wsFactory(wsUrl);
+
+	$scope.connectionStatus = "Connected";
+	$scope.log = [];
+
+	ws.listen(function(data) {
+		var msg = JSON.parse(data);
+		if (msg.log) {
+			$scope.log.push(msg.log);
+		} else {
+			ws.send(msg);
+			alert("Unknown message: " + msg);
+		}
 	});
 });
