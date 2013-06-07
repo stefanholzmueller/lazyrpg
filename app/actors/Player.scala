@@ -29,6 +29,7 @@ class Player(username: String) extends Actor with ActorLogging {
 		case KilledSomething() => {
 			val msg = JsObject(
 				Seq("log" -> JsObject(Seq(
+					"class" -> JsString("kill"),
 					"text" -> JsString("You killed a critter. Good job!")))))
 			chatChannel.push(msg)
 		}
