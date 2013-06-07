@@ -28,7 +28,7 @@ object WebSockets extends Controller {
 
 				case StartedPlaying(enumerator) => {
 					val iteratee = Iteratee.foreach[JsValue](println).mapDone { _ =>
-						println("Disconnected")
+						println("Disconnected: " + username)
 					}
 
 					(iteratee, enumerator)
