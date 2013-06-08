@@ -2,7 +2,6 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.WordSpec
 import org.scalatest.matchers.MustMatchers
 
-import actors.BeginAdventure
 import actors.Player
 import akka.actor.ActorSystem
 import akka.actor.Props
@@ -29,7 +28,6 @@ class PlayerSpec(_system: ActorSystem) extends TestKit(_system)
 			player ! StartPlaying()
 
 			expectMsgClass(classOf[StartedPlaying])
-			expectMsg(BeginAdventure())
 		}
 
 	}

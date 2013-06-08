@@ -9,3 +9,15 @@ html {
 	min-width: 250px;
 	font-family: "Georgia", serif;
 }
+
+.log {
+	font-size: 1.3em;
+}
+
+.event {
+    color: #FF7519;
+}
+
+.kill {
+    color: #286628;
+}

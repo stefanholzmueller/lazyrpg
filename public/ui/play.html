@@ -20,8 +20,10 @@
 			<div id="yui-main">
 				<div class="yui-b">
 					<div class="yui-g">
-						<div class="{{entry.class}}" ng-repeat="entry in log">
-							{{entry.text}}<br>
+						<div class="log" ng-repeat="entry in log">
+							<p class="{{entry.kind}}">
+								{{entry.text}}
+							</p>
 						</div>
 					</div>
 				</div>

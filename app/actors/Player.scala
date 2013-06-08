@@ -14,24 +14,24 @@ import play.api.libs.json.JsValue
 
 class Player(username: String) extends Actor with ActorLogging {
 
+	val LOG_EVENT = "event"
+	val LOG_KILL = "kill"
+
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
 	def receive = LoggingReceive {
 
 		case StartPlaying() => {
 			sender ! StartedPlaying(chatEnumerator)
-			sender ! BeginAdventure()
 
 			val grinding = context.system.actorOf(Props(new Grinding(self)))
 			grinding ! StartGrinding()
+
+			sendLogMessage(LOG_EVENT, "Your adventure starts ...")
 		}
 
 		case KilledSomething() => {
-			val msg = JsObject(
-				Seq("log" -> JsObject(Seq(
-					"class" -> JsString("kill"),
-					"text" -> JsString("You killed a critter. Good job!")))))
-			chatChannel.push(msg)
+			sendLogMessage(LOG_KILL, "You kill a critter. Good job!")
 		}
 
 		case GainXp(xp) => {
@@ -39,7 +39,14 @@ class Player(username: String) extends Actor with ActorLogging {
 		}
 	}
 
+	private def sendLogMessage(kind: String, text: String): Unit = {
+		val msg = JsObject(
+			Seq("log" -> JsObject(Seq(
+				"kind" -> JsString(kind),
+				"text" -> JsString(text)))))
+		chatChannel.push(msg)
+	}
+
 }
 
-case class BeginAdventure()
 case class GainXp(xp: Int)
