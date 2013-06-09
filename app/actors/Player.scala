@@ -30,7 +30,7 @@ class Player(username: String) extends Actor with ActorLogging {
 			transmitLogMessage(kind, text)
 		}
 
-		case UpdateStats(xp) => {
+		case UpdateStats(lvl, xp) => {
 
 		}
 
@@ -50,4 +50,4 @@ class Player(username: String) extends Actor with ActorLogging {
 }
 
 case class SendLogEntry(kind: String, text: String)
-case class UpdateStats(xp: Int)
+case class UpdateStats(lvl: Int, xp: Int)

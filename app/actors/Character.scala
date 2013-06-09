@@ -27,7 +27,7 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 
 			handleLevelUp()
 
-			//			player ! UpdateStats(experience)
+			player ! UpdateStats(level, experience)
 		}
 
 	}
