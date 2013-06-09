@@ -8,28 +8,28 @@ import scala.util.Random
 import akka.actor.Actor
 import akka.actor.ActorRef
 import akka.actor.actorRef2Scala
+import akka.event.LoggingReceive
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-class Grinding(player: ActorRef) extends Actor {
+class Grinding(character: ActorRef) extends Actor {
 
 	val random = new Random()
 
 	/**
 	 * uniformly distributed integer between min (inclusive) and max (inclusive)
 	 */
-	def randomRange(min: Int, max: Int) = random.nextInt(max - min + 1) + min
+	def randomRange(min: Int, max: Int): Int = random.nextInt(max - min + 1) + min
 
 	def grindDelay() = FiniteDuration(randomRange(5, 10), TimeUnit.SECONDS)
 
-	def receive = {
+	def receive = LoggingReceive {
 
 		case StartGrinding() => {
-			context.system.scheduler.scheduleOnce(grindDelay(), self, KilledSomething())
+			context.system.scheduler.scheduleOnce(grindDelay(), self, DoneGrinding())
 		}
 
-		case KilledSomething() => {
-			player ! KilledSomething()
-			player ! GainXp(randomRange(3, 6))
+		case DoneGrinding() => {
+			character ! GainXp(randomRange(3, 6))
 			self ! StartGrinding() // endless
 		}
 
@@ -38,4 +38,4 @@ class Grinding(player: ActorRef) extends Actor {
 }
 
 case class StartGrinding()
-case class KilledSomething()
+case class DoneGrinding()

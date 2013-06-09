@@ -6,9 +6,9 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.WordSpec
 import org.scalatest.matchers.MustMatchers
 
+import actors.DoneGrinding
 import actors.GainXp
 import actors.Grinding
-import actors.KilledSomething
 import actors.StartGrinding
 import akka.actor.ActorSystem
 import akka.actor.Props
@@ -32,10 +32,8 @@ class GrindingSpec(_system: ActorSystem) extends TestKit(_system)
 
 			grinding ! StartGrinding()
 
-			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[KilledSomething])
-			expectMsgClass(FiniteDuration(1, TimeUnit.SECONDS), classOf[GainXp])
-			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[KilledSomething])
-			expectMsgClass(FiniteDuration(1, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
+			expectMsgClass(FiniteDuration(11, TimeUnit.SECONDS), classOf[GainXp])
 		}
 
 	}

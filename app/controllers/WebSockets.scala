@@ -24,10 +24,14 @@ object WebSockets extends Controller {
 
 		WebSocket.async[JsValue] { request =>
 
-			(playerActor ? StartPlaying()).map {
+			(playerActor ? ConnectionRequest()).map {
 
-				case StartedPlaying(enumerator) => {
-					val iteratee = Iteratee.foreach[JsValue](println).mapDone { _ =>
+				case ConnectionResponse(enumerator) => {
+					println("Connected: " + username)
+
+					val iteratee = Iteratee.foreach[JsValue] { msg =>
+						println(username + " sent message: " + msg)
+					}.mapDone { _ =>
 						println("Disconnected: " + username)
 					}
 
@@ -39,5 +43,5 @@ object WebSockets extends Controller {
 
 }
 
-case class StartPlaying()
-case class StartedPlaying(enumerator: Enumerator[JsValue])
+case class ConnectionRequest()
+case class ConnectionResponse(enumerator: Enumerator[JsValue])

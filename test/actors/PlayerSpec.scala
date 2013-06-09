@@ -1,15 +1,20 @@
+import java.util.concurrent.TimeUnit
+
+import scala.concurrent.duration.FiniteDuration
+
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.WordSpec
 import org.scalatest.matchers.MustMatchers
 
 import actors.Player
+import actors.SendLogEntry
 import akka.actor.ActorSystem
 import akka.actor.Props
 import akka.actor.actorRef2Scala
 import akka.testkit.ImplicitSender
 import akka.testkit.TestKit
-import controllers.StartPlaying
-import controllers.StartedPlaying
+import controllers.ConnectionRequest
+import controllers.ConnectionResponse
 
 class PlayerSpec(_system: ActorSystem) extends TestKit(_system)
 	with ImplicitSender with WordSpec with MustMatchers with BeforeAndAfterAll {
@@ -22,12 +27,13 @@ class PlayerSpec(_system: ActorSystem) extends TestKit(_system)
 
 	"A Player actor" must {
 
-		"start playing" in {
+		"establish the connection" in {
 			val player = system.actorOf(Props(new Player("player1")))
 
-			player ! StartPlaying()
+			player ! ConnectionRequest()
 
-			expectMsgClass(classOf[StartedPlaying])
+			expectMsgClass(classOf[ConnectionResponse])
+			expectNoMsg()
 		}
 
 	}

@@ -5,8 +5,8 @@ import akka.actor.ActorLogging
 import akka.actor.Props
 import akka.actor.actorRef2Scala
 import akka.event.LoggingReceive
-import controllers.StartPlaying
-import controllers.StartedPlaying
+import controllers.ConnectionRequest
+import controllers.ConnectionResponse
 import play.api.libs.iteratee.Concurrent
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
@@ -14,39 +14,35 @@ import play.api.libs.json.JsValue
 
 class Player(username: String) extends Actor with ActorLogging {
 
-	val LOG_EVENT = "event"
-	val LOG_KILL = "kill"
-
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
 	def receive = LoggingReceive {
 
-		case StartPlaying() => {
-			sender ! StartedPlaying(chatEnumerator)
+		case ConnectionRequest() => {
+			sender ! ConnectionResponse(chatEnumerator)
+			transmitLogMessage("event", "Your adventure starts ...")
 
-			val grinding = context.system.actorOf(Props(new Grinding(self)))
-			grinding ! StartGrinding()
-
-			sendLogMessage(LOG_EVENT, "Your adventure starts ...")
+			val character = context.system.actorOf(Props(new Character(self)))
+			character ! StartLeveling()
 		}
 
-		case KilledSomething() => {
-			sendLogMessage(LOG_KILL, "You kill a critter. Good job!")
+		case SendLogEntry(kind, text) => {
+			transmitLogMessage(kind, text)
 		}
 
-		case GainXp(xp) => {
-			// TODO
-		}
 	}
 
-	private def sendLogMessage(kind: String, text: String): Unit = {
-		val msg = JsObject(
-			Seq("log" -> JsObject(Seq(
-				"kind" -> JsString(kind),
-				"text" -> JsString(text)))))
+	private def transmitLogMessage(kind: String, text: String): Unit = {
+		val data = Map("kind" -> kind, "text" -> text)
+		transmitMessage("log", data)
+	}
+
+	private def transmitMessage(category: String, data: Map[String, String]) = {
+		val seq = data.mapValues(JsString(_)).toSeq
+		val msg = JsObject(Seq(category -> JsObject(seq)))
 		chatChannel.push(msg)
 	}
 
 }
 
-case class GainXp(xp: Int)
+case class SendLogEntry(kind: String, text: String)
