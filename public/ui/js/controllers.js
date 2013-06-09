@@ -22,6 +22,7 @@ App.controller('PlayerController', function($scope, wsFactory) {
 		} else {
 			ws.send(data);
 			alert("Unknown data: " + data);
+			ws.close();
 		}
 	});
 });

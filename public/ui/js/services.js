@@ -10,13 +10,16 @@ App.factory('wsFactory', function($rootScope) {
 //			alert("ws opened!");
 		};
 		socket.onclose = function() {
-//			alert("ws closed!");
+			alert("ws closed!");
 		};
 		socket.onerror = function(event) {
 			alert("ws error: " + event.data);
 		};
 		
 		return {
+			close : function() {
+				socket.close();
+			},
 			listen : function(callback) {
 				socket.onmessage = function(event) {
 					$rootScope.$apply(callback(event.data));
