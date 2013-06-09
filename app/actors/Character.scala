@@ -6,12 +6,17 @@ import akka.actor.ActorRef
 import akka.event.LoggingReceive
 import akka.actor.Props
 
+object Character {
+	val INITIAL_LEVEL = 1
+	val INITIAL_XP = 0
+	val XP_PER_LEVEL_BASE = 100
+	val XP_PER_LEVEL_SLOPE = 1.5
+}
+
 class Character(player: ActorRef) extends Actor with ActorLogging {
 
-	val LEVEL_BASE_XP: Int = 100
-
-	var level: Int = 1
-	var experience: Int = 0
+	var level: Int = Character.INITIAL_LEVEL
+	var experience: Int = Character.INITIAL_XP
 
 	def receive = LoggingReceive {
 
@@ -33,7 +38,8 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 	}
 
 	private def handleLevelUp(): Unit = {
-		val xpForNextLevel = (LEVEL_BASE_XP * math.pow(1.5, level - 1)).toInt
+		val factor = math.pow(Character.XP_PER_LEVEL_SLOPE, level - 1)
+		val xpForNextLevel = (Character.XP_PER_LEVEL_BASE * factor).toInt
 
 		if (experience >= xpForNextLevel) {
 			experience -= xpForNextLevel

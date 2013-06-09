@@ -10,3 +10,7 @@ html {
 	font-family: "Georgia", serif;
 	font-size: 1.3em;
 }
+
+#hd  {
+	text-align: right;
+}

@@ -23,6 +23,7 @@ class Player(username: String) extends Actor with ActorLogging {
 		case ConnectionRequest() => {
 			sender ! ConnectionResponse(chatEnumerator)
 			transmitLogMessage("event", "Your adventure starts ...")
+			transmitStats(Character.INITIAL_LEVEL, Character.INITIAL_XP)
 
 			val character = context.system.actorOf(Props(new Character(self)))
 			character ! StartLeveling()
@@ -40,18 +41,16 @@ class Player(username: String) extends Actor with ActorLogging {
 
 	private def transmitLogMessage(kind: String, text: String): Unit = {
 		val data = Map("kind" -> kind, "text" -> text)
-		val seq = data.mapValues(JsString(_)).toSeq
-		transmitJson("log", seq)
+		transmitJson("log", data.mapValues(JsString(_)))
 	}
 
 	private def transmitStats(lvl: Int, xp: Int): Unit = {
 		val data = Map("lvl" -> lvl, "xp" -> xp)
-		val seq = data.mapValues(JsNumber(_)).toSeq
-		transmitJson("stats", seq)
+		transmitJson("sheet", data.mapValues(JsNumber(_)))
 	}
 
-	private def transmitJson(category: String, seq: Seq[(String, JsValue)]): Unit = {
-		val msg = JsObject(Seq(category -> JsObject(seq)))
+	private def transmitJson(category: String, map: Map[String, JsValue]): Unit = {
+		val msg = JsObject(Seq(category -> JsObject(map.toSeq)))
 		chatChannel.push(msg)
 	}
 
