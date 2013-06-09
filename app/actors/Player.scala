@@ -11,6 +11,8 @@ import play.api.libs.iteratee.Concurrent
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
+import play.api.libs.json.JsString
+import play.api.libs.json.JsNumber
 
 class Player(username: String) extends Actor with ActorLogging {
 
@@ -31,18 +33,24 @@ class Player(username: String) extends Actor with ActorLogging {
 		}
 
 		case UpdateStats(lvl, xp) => {
-
+			transmitStats(lvl, xp)
 		}
 
 	}
 
 	private def transmitLogMessage(kind: String, text: String): Unit = {
 		val data = Map("kind" -> kind, "text" -> text)
-		transmitMessage("log", data)
+		val seq = data.mapValues(JsString(_)).toSeq
+		transmitJson("log", seq)
 	}
 
-	private def transmitMessage(category: String, data: Map[String, String]) = {
-		val seq = data.mapValues(JsString(_)).toSeq
+	private def transmitStats(lvl: Int, xp: Int): Unit = {
+		val data = Map("lvl" -> lvl, "xp" -> xp)
+		val seq = data.mapValues(JsNumber(_)).toSeq
+		transmitJson("stats", seq)
+	}
+
+	private def transmitJson(category: String, seq: Seq[(String, JsValue)]): Unit = {
 		val msg = JsObject(Seq(category -> JsObject(seq)))
 		chatChannel.push(msg)
 	}

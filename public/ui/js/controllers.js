@@ -17,8 +17,8 @@ App.controller('PlayerController', function($scope, wsFactory) {
 		if (msg.log) {
 			$scope.log.push(msg.log);
 		} else {
-			ws.send(msg);
-			alert("Unknown message: " + msg);
+			ws.send(data);
+			alert("Unknown data: " + data);
 		}
 	});
 });
