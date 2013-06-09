@@ -2,13 +2,14 @@
 
 var App = App || angular.module('lazyrpg', []);
 App.controller('PlayerController', function($scope, wsFactory) {
-	var escapedUsername = "tester";
+	var username = "tester";
+	var escapedUsername = encodeURIComponent(username);
 	
 	var host = document.location.host;
 	var wsUrl = "ws://" + host + "/ws/player?username=" + escapedUsername;
 	var ws = wsFactory(wsUrl);
 
-	$scope.connectionStatus = "Connected";
+	$scope.connectionStatus = "Connected as " + username;
 	$scope.log = [];
 
 	ws.listen(function(data) {

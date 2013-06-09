@@ -2,7 +2,8 @@
 <html>
 <head>
 <title>Play</title>
-<link rel="stylesheet" href="/assets/stylesheets/main.css" type="text/css"/>
+<link rel="stylesheet" href="/assets/stylesheets/main.css"
+	type="text/css" />
 <script src="lib/angular/angular.js"></script>
 <script src="js/app.js"></script>
 <script src="js/controllers.js"></script>
@@ -11,19 +12,18 @@
 <body class="yui-skin-sam" ng-app="lazyrpg">
 	<div id="custom-doc" class="yui-t3" ng-controller="PlayerController">
 		<div id="hd">
-			<h1>{{connectionStatus}}</h1>
+			<p>{{connectionStatus}}</p>
+			<!-- Bookmark this page to continue playing -->
 		</div>
 		<div id="bd">
 			<div class="yui-b">
-				Your Character:
+				<!-- character sheet -->
 			</div>
 			<div id="yui-main">
 				<div class="yui-b">
 					<div class="yui-g">
 						<div class="log" ng-repeat="entry in log">
-							<p class="{{entry.kind}}">
-								{{entry.text}}
-							</p>
+							<p class="{{entry.kind}}">{{entry.text}}</p>
 						</div>
 					</div>
 				</div>
