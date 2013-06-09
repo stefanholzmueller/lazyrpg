@@ -30,6 +30,10 @@ class Player(username: String) extends Actor with ActorLogging {
 			transmitLogMessage(kind, text)
 		}
 
+		case UpdateStats(xp) => {
+
+		}
+
 	}
 
 	private def transmitLogMessage(kind: String, text: String): Unit = {
@@ -46,3 +50,4 @@ class Player(username: String) extends Actor with ActorLogging {
 }
 
 case class SendLogEntry(kind: String, text: String)
+case class UpdateStats(xp: Int)
