@@ -6,14 +6,11 @@ App.factory('wsFactory', function($rootScope) {
 		var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 		var socket = new WS(wsUrl);
 		
-		socket.onopen = function() {
-//			alert("ws opened!");
-		};
 		socket.onclose = function() {
-			alert("ws closed!");
+			alert("WebSocket closed! It is possible the server was shut down. Oops.");
 		};
 		socket.onerror = function(event) {
-			alert("ws error: " + event.data);
+			alert("WebSocket error: " + event.data);
 		};
 		
 		return {
