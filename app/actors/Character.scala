@@ -18,6 +18,11 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 	var level: Int = Character.INITIAL_LEVEL
 	var experience: Int = Character.INITIAL_XP
 
+	def experienceForNextLevel: Int = {
+		val factor = math.pow(Character.XP_PER_LEVEL_SLOPE, level - 1)
+		(Character.XP_PER_LEVEL_BASE * factor).toInt
+	}
+
 	def receive = LoggingReceive {
 
 		case StartLeveling() => {
@@ -32,17 +37,14 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 
 			handleLevelUp()
 
-			player ! UpdateStats(level, experience)
+			player ! UpdateStats(level, experience, experienceForNextLevel)
 		}
 
 	}
 
 	private def handleLevelUp(): Unit = {
-		val factor = math.pow(Character.XP_PER_LEVEL_SLOPE, level - 1)
-		val xpForNextLevel = (Character.XP_PER_LEVEL_BASE * factor).toInt
-
-		if (experience >= xpForNextLevel) {
-			experience -= xpForNextLevel
+		if (experience >= experienceForNextLevel) {
+			experience -= experienceForNextLevel
 			level += 1
 
 			player ! SendLogEntry("lvlup", s"You have reached level $level!")

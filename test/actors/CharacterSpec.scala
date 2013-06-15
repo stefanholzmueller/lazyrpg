@@ -27,12 +27,12 @@ class CharacterSpec(_system: ActorSystem) extends TestKit(_system)
 			character ! GainXp(5)
 
 			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(UpdateStats(1, 5))
+			expectMsg(UpdateStats(1, 5, 100))
 
 			character ! GainXp(10)
 
 			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(UpdateStats(1, 15))
+			expectMsg(UpdateStats(1, 15, 100))
 		}
 
 		"level up" in {
@@ -42,7 +42,7 @@ class CharacterSpec(_system: ActorSystem) extends TestKit(_system)
 
 			expectMsgClass(classOf[SendLogEntry])
 			expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
-			expectMsg(UpdateStats(2, 23))
+			expectMsg(UpdateStats(2, 23, 150))
 		}
 
 		"level up recursively" in {
@@ -54,7 +54,7 @@ class CharacterSpec(_system: ActorSystem) extends TestKit(_system)
 			expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
 			expectMsg(SendLogEntry("lvlup", "You have reached level 3!"))
 			expectMsg(SendLogEntry("lvlup", "You have reached level 4!"))
-			expectMsg(UpdateStats(4, 25))
+			expectMsg(UpdateStats(4, 25, 337))
 			expectNoMsg()
 		}
 

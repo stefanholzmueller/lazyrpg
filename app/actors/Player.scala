@@ -23,7 +23,7 @@ class Player(username: String) extends Actor with ActorLogging {
 		case ConnectionRequest() => {
 			sender ! ConnectionResponse(chatEnumerator)
 			transmitLogMessage("event", "Your adventure starts ...")
-			transmitStats(Character.INITIAL_LEVEL, Character.INITIAL_XP)
+			transmitStats(Character.INITIAL_LEVEL, Character.INITIAL_XP, Character.XP_PER_LEVEL_BASE)
 
 			val character = context.system.actorOf(Props(new Character(self)))
 			character ! StartLeveling()
@@ -33,8 +33,8 @@ class Player(username: String) extends Actor with ActorLogging {
 			transmitLogMessage(kind, text)
 		}
 
-		case UpdateStats(lvl, xp) => {
-			transmitStats(lvl, xp)
+		case UpdateStats(lvl, xp, xpNext) => {
+			transmitStats(lvl, xp, xpNext)
 		}
 
 	}
@@ -44,8 +44,8 @@ class Player(username: String) extends Actor with ActorLogging {
 		transmitJson("log", data.mapValues(JsString(_)))
 	}
 
-	private def transmitStats(lvl: Int, xp: Int): Unit = {
-		val data = Map("lvl" -> lvl, "xp" -> xp)
+	private def transmitStats(lvl: Int, xp: Int, xpNext: Int): Unit = {
+		val data = Map("lvl" -> lvl, "xp" -> xp, "xpNext" -> xpNext)
 		transmitJson("sheet", data.mapValues(JsNumber(_)))
 	}
 
@@ -57,4 +57,4 @@ class Player(username: String) extends Actor with ActorLogging {
 }
 
 case class SendLogEntry(kind: String, text: String)
-case class UpdateStats(lvl: Int, xp: Int)
+case class UpdateStats(lvl: Int, xp: Int, xpNext: Int)
