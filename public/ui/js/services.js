@@ -1,13 +1,12 @@
 'use strict';
 
-var App = App || angular.module('lazyrpg', []);
-App.factory('wsFactory', function($rootScope) {
+lazyRPG.factory('wsFactory', function($rootScope) {
 	return function(wsUrl) {
 		var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 		var socket = new WS(wsUrl);
 		
 		socket.onclose = function() {
-			alert("WebSocket closed! It is possible the server was shut down. Oops.");
+			alert("WebSocket closed! Maybe the server was shut down. Oops.");
 		};
 		socket.onerror = function(event) {
 			alert("WebSocket error: " + event.data);

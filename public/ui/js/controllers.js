@@ -1,7 +1,6 @@
 'use strict';
 
-var App = App || angular.module('lazyrpg', []);
-App.controller('PlayerController', function($scope, wsFactory) {
+lazyRPG.controller('PlayerController', function($scope, wsFactory) {
 	var username = "tester";
 	var escapedUsername = encodeURIComponent(username);
 
