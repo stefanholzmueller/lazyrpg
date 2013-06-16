@@ -8,31 +8,25 @@
 <script src="js/controllers.js"></script>
 <script src="js/services.js"></script>
 </head>
-<body class="yui-skin-sam" ng-app="lazyrpg">
-	<div id="custom-doc" class="yui-t3" ng-controller="PlayerController">
-		<div id="bd">
-			<div class="yui-b" id="sidebar">
-				<p>{{connectionStatus}}</p>
-				<!-- <p>Bookmark this page to continue playing</p> -->
-				<div id="sheet">
-					<h2>Character Sheet</h2>
-					<p>Level: {{sheet.lvl}}</p>
-					<p>XP: {{sheet.xp}} / {{sheet.xpNext}}</p>
-				</div>
-			</div>
-			<div id="yui-main">
-				<div class="yui-b">
-					<div class="yui-g">
-						<div class="log" ng-repeat="entry in log">
-							<p class="{{entry.kind}}">{{entry.text}}</p>
-						</div>
-					</div>
-				</div>
+<body ng-app="lazyrpg">
+	<div id="main" ng-controller="PlayerController">
+		<div id="left">
+			<p>{{connectionStatus}}</p>
+			<!-- <p>Bookmark this page to continue playing</p> -->
+			<div id="sheet">
+				<h2>Character Sheet</h2>
+				<p>Level: {{sheet.lvl}}</p>
+				<p>XP: {{sheet.xp}} / {{sheet.xpNext}}</p>
 			</div>
 		</div>
-		<div id="ft">
-			<p>...</p>
+		<div id="mid" class="log">
+			<div class="entry" ng-repeat="entry in log">
+				<p class="{{entry.kind}}">{{entry.text}}</p>
+			</div>
 		</div>
+	</div>
+	<div id="footer">
+		<p>GitHub:</p>
 	</div>
 </body>
 </html>

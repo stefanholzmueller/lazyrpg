@@ -16,7 +16,7 @@ App.controller('PlayerController', function($scope, wsFactory) {
 	ws.listen(function(data) {
 		var msg = JSON.parse(data);
 		if (msg.log) {
-			$scope.log.unshift(msg.log);
+			$scope.log.push(msg.log);
 		} else if (msg.sheet) {
 			$scope.sheet = msg.sheet;
 		} else {
