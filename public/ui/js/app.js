@@ -1,3 +1,3 @@
 'use strict';
 
-var lazyRPG = angular.module('lazyrpg', []);
+var lazyRPG = angular.module('lazyrpg', ['luegg.directives']);
