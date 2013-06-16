@@ -30,8 +30,7 @@ body {
 	width: 250px;
 	height: 100%;
 	position: absolute;
-	overflow: visible;
-	position: absolute;
+	overflow: auto;
 }
 
 #mid {
