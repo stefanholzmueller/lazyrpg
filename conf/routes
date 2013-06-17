@@ -2,6 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /ws/player              controllers.WebSockets.player(username)
-GET     /assets/*file           controllers.Assets.at(path="/public", file)
-GET     /*file                  controllers.Assets.at(path="/public/ui", file)
+GET     /play                controllers.Pages.player(username: Option[String] ?= None)
+GET     /ws/player           controllers.WebSockets.player(username)
+GET     /public/*file        controllers.Assets.at(path="/public", file)
