@@ -4,6 +4,7 @@
 <title>Play</title>
 <link rel="stylesheet" href="/public/stylesheets/main.css" type="text/css" />
 <script src="/public/ui/lib/angular/angular.js"></script>
+<script src="/public/ui/lib/angularjs-scroll-glue/scrollglue.js"></script>
 <script src="/public/ui/js/app.js"></script>
 <script src="/public/ui/js/controllers.js"></script>
 <script src="/public/ui/js/services.js"></script>
@@ -19,7 +20,7 @@
 				<p>XP: {{sheet.xp}} / {{sheet.xpNext}}</p>
 			</div>
 		</div>
-		<div id="mid" class="log">
+		<div id="mid" class="log" scroll-glue>
 			<div class="entry" ng-repeat="entry in log">
 				<p class="{{entry.kind}}">{{entry.text}}</p>
 			</div>
