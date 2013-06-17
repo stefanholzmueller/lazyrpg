@@ -5,7 +5,7 @@ import play.api.mvc.Controller
 
 object Pages extends Controller {
 
-	def player(username: Option[String]) = Action { implicit request =>
+	def player(username: String) = Action { implicit request =>
 		sendFile("/public/ui/play.html")
 	}
 
