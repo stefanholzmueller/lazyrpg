@@ -1,8 +1,8 @@
 'use strict';
 
-lazyRPG.controller("PlayerController", function($scope, wsFactory) {
-	var username = window.location.pathname.split("/")[2]
-	var escapedUsername = encodeURIComponent(username);
+lazyRPG.controller("PlayerController", function($scope, $window, wsFactory) {
+	var escapedUsername = $window.location.pathname.split("/")[2]
+	var username = decodeURIComponent(escapedUsername);
 
 	var host = document.location.host;
 	var wsUrl = "ws://" + host + "/ws/player?username=" + escapedUsername;
