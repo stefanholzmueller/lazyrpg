@@ -8,15 +8,17 @@ import play.api.mvc.AnyContent
 object Pages extends Controller {
 
 	def index() = Action { implicit request =>
-		sendFile("index.html", request)
+		sendFile("index.html")
 	}
 
 	def player(username: String) = Action { implicit request =>
-		sendFile("play.html", request)
+		sendFile("play.html")
 	}
 
-	private def sendFile(path: String, request: Request[AnyContent]) = {
-		Assets.at("/public/ui/", path)(request)
+	private def sendFile(path: String) = {
+		val stream = getClass().getResourceAsStream("/public/ui/" + path)
+		val string = io.Source.fromInputStream(stream).mkString
+		Ok(string) as HTML
 	}
 
 }
