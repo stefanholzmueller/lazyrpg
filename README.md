@@ -3,24 +3,28 @@ the most casual RPG ever
 
 ###### So, what is it?
 
-It's a text-based role-playing game that runs in a browser. You don't have to play it yourself - the characters are embark on adventures and level up automatically. The sensation of progress without lifting a finger.
+It's a text-based role-playing game that runs in a browser. You don't have to play it yourself - the characters embark on adventures and level up automatically.
 
-Sounds great? Try it on XXXXXXXXXXXXXXXXXXXX
+Sounds awesome? Try it here: http://m1.lazyrpg.eu.cloudbees.net/ (requires a browser that supports HTML5 WebSockets)
 
 ## Features
 
 #### Milestone 1
 
 - [x] Basic infrastructure
-- [x] Leveling up
+- [x] Main page to "play" the game
+- [x] Gaining XP and leveling up
 - [x] Start page to select a username
-- [ ] Known bug: hitting refresh (F5) does strange things
+- [ ] Known bug: hitting refresh (F5) does strange things / no logout
 
 #### Milestone 2
 
-- [ ] Persistence!
-- [ ] Configuration
-- [ ] Jenkins setup
+- [ ] Persistence
+- [ ] Pressing enter in the username field submits the form
+
+#### Other ideas
+
+lots
 
 ## Credits:
 
