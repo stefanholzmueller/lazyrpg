@@ -4,13 +4,19 @@
 <title>lazyRPG</title>
 <link rel="stylesheet" href="/public/stylesheets/main.css" type="text/css" />
 <script src="/public/ui/lib/angular/angular.js"></script>
+<script src="/public/ui/lib/angularjs-scroll-glue/scrollglue.js"></script>
 <script src="/public/ui/js/app.js"></script>
 <script src="/public/ui/js/controllers.js"></script>
 <script src="/public/ui/js/services.js"></script>
 </head>
 <body ng-app="lazyrpg">
-	<div id="login" ng-controller="StartController">
-		Username: <input id="usernameInput" type="text"><input type="submit" value="Enter">
+	<div id="login" ng-controller="LoginController">
+		Username: <input id="usernameInput" type="text" maxlength="30"
+			ng-model="username">
+		<button ng-click="login()">Enter</button>
+		<ul ng-repeat="error in errors">
+			<li class="error">{{error}}</li>
+		</ul>
 	</div>
 	<div id="footer">
 		<p>GitHub:</p>
