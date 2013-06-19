@@ -16,7 +16,7 @@ lazyRPG.controller("LoginController", function($scope, $window) {
 		var errors = [];
 		
 		if (username) {
-			if (username.length < 3 && username.length > 30) {
+			if (username.length < 3 || username.length > 30) {
 				errors.push("Usernames must have between 3 and 30 characters");
 			}
 		} else {
