@@ -5,6 +5,10 @@ import play.api.mvc.Controller
 
 object Pages extends Controller {
 
+	def index() = Action { implicit request =>
+		sendFile("/public/ui/index.html")
+	}
+
 	def player(username: String) = Action { implicit request =>
 		sendFile("/public/ui/play.html")
 	}
