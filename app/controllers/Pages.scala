@@ -2,21 +2,21 @@ package controllers
 
 import play.api.mvc.Action
 import play.api.mvc.Controller
+import play.api.mvc.Request
+import play.api.mvc.AnyContent
 
 object Pages extends Controller {
 
 	def index() = Action { implicit request =>
-		sendFile("/public/ui/index.html")
+		sendFile("index.html", request)
 	}
 
 	def player(username: String) = Action { implicit request =>
-		sendFile("/public/ui/play.html")
+		sendFile("play.html", request)
 	}
 
-	private def sendFile(path: String) = {
-		val fileUrl: java.net.URL = getClass().getResource(path)
-		val file = new java.io.File(fileUrl.toURI())
-		Ok.sendFile(file, inline = true)
+	private def sendFile(path: String, request: Request[AnyContent]) = {
+		Assets.at("/public/ui/", path)(request)
 	}
 
 }
