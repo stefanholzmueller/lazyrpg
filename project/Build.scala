@@ -15,9 +15,10 @@ object ApplicationBuild extends Build {
 		"com.typesafe.akka" % "akka-testkit_2.10" % "2.1.1" % "test",
 		"org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test")
 
-	val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA)
+	val main = play.Project(appName, appVersion, appDependencies)
 		.settings(cloudBeesSettings: _*)
 		.settings(
+			CloudBees.username := Some("lazyrpg"),
 			CloudBees.applicationId := Some("m1"))
 
 }
