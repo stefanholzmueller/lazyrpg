@@ -51,7 +51,6 @@ lazyRPG.controller("PlayerController", function($scope, $window, wsFactory) {
 		} else if (msg.sheet) {
 			$scope.sheet = msg.sheet;
 		} else {
-			ws.send(data);
 			alert("Unknown data: " + data);
 			ws.close();
 		}

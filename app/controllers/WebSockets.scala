@@ -4,7 +4,9 @@ import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
 import actors.Player
+import actors.StartPlaying
 import akka.actor.Props
+import akka.actor.actorRef2Scala
 import akka.pattern.ask
 import akka.util.Timeout
 import play.api.Play.current
@@ -21,17 +23,17 @@ object WebSockets extends Controller {
 	implicit val timeout = Timeout(1 second) // needed for `?`
 
 	def player(username: String): WebSocket[JsValue] = {
-		val playerActor = Akka.system.actorOf(Props(new Player(username)))
+		val player = Akka.system.actorOf(Props(new Player(username)))
 
 		WebSocket.async[JsValue] { request =>
 
-			(playerActor ? ConnectionRequest()).map {
+			(player ? ConnectionRequest()).map {
 
 				case ConnectionResponse(enumerator) => {
 					println("Connected: " + username)
 
-					val iteratee = Iteratee.foreach[JsValue] { msg =>
-						println(username + " sent message: " + msg)
+					val iteratee = Iteratee.foreach[JsValue] { _ =>
+						player ! StartPlaying()
 					}.mapDone { _ =>
 						println("Disconnected: " + username)
 					}

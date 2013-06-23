@@ -15,7 +15,6 @@ Sounds awesome? Try it here: http://m1.lazyrpg.eu.cloudbees.net/ (requires a bro
 - [x] Main page to "play" the game
 - [x] Gaining XP and leveling up
 - [x] Start page to select a username
-- [ ] Known bug: hitting refresh (F5) does strange things / no logout
 
 #### Milestone 2
 

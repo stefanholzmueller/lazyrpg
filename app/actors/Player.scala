@@ -1,5 +1,7 @@
 package actors
 
+import scala.math.BigDecimal.int2bigDecimal
+
 import akka.actor.Actor
 import akka.actor.ActorLogging
 import akka.actor.Props
@@ -8,11 +10,10 @@ import akka.event.LoggingReceive
 import controllers.ConnectionRequest
 import controllers.ConnectionResponse
 import play.api.libs.iteratee.Concurrent
+import play.api.libs.json.JsNumber
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
-import play.api.libs.json.JsString
-import play.api.libs.json.JsNumber
 
 class Player(username: String) extends Actor with ActorLogging {
 
@@ -22,6 +23,9 @@ class Player(username: String) extends Actor with ActorLogging {
 
 		case ConnectionRequest() => {
 			sender ! ConnectionResponse(chatEnumerator)
+		}
+
+		case StartPlaying() => {
 			transmitLogMessage("event", "Your adventure starts ...")
 			transmitStats(Character.INITIAL_LEVEL, Character.INITIAL_XP, Character.XP_PER_LEVEL_BASE)
 
@@ -56,5 +60,6 @@ class Player(username: String) extends Actor with ActorLogging {
 
 }
 
+case class StartPlaying()
 case class SendLogEntry(kind: String, text: String)
 case class UpdateStats(lvl: Int, xp: Int, xpNext: Int)

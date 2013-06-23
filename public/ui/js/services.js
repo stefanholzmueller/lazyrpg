@@ -5,6 +5,9 @@ lazyRPG.factory("wsFactory", function($rootScope) {
 		var WS = window["MozWebSocket"] ? MozWebSocket : WebSocket;
 		var socket = new WS(wsUrl);
 
+		socket.onopen = function() {
+			socket.send("{}"); // start playing
+		};
 		socket.onclose = function() {
 			alert("WebSocket closed! Maybe the server was shut down. Oops.");
 		};
