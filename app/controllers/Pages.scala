@@ -16,7 +16,7 @@ object Pages extends Controller {
 	}
 
 	def constants = Action {
-		Ok(views.html.constants())
+		Ok(views.txt.constants()) as JAVASCRIPT
 	}
 
 	private def sendFile(path: String) = {
