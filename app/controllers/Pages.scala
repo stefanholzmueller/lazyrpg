@@ -7,12 +7,16 @@ import play.api.mvc.AnyContent
 
 object Pages extends Controller {
 
-	def index() = Action { implicit request =>
+	def index() = Action {
 		sendFile("index.html")
 	}
 
-	def player(username: String) = Action { implicit request =>
+	def player(username: String) = Action {
 		sendFile("play.html")
+	}
+
+	def constants = Action {
+		Ok(views.html.constants())
 	}
 
 	private def sendFile(path: String) = {

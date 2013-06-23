@@ -6,5 +6,6 @@ GET     /                    controllers.Pages.index
 GET     /play                controllers.Pages.index
 GET     /play/               controllers.Pages.index
 GET     /play/:username      controllers.Pages.player(username)
+GET     /constants.js        controllers.Pages.constants
 GET     /ws/player           controllers.WebSockets.player(username)
 GET     /public/*file        controllers.Assets.at(path="/public", file)

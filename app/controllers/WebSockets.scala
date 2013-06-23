@@ -2,7 +2,6 @@ package controllers
 
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-
 import actors.Player
 import actors.StartPlaying
 import akka.actor.Props

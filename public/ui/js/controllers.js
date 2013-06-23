@@ -41,8 +41,12 @@ lazyRPG.controller("PlayerController", function($scope, $window, wsFactory) {
 	var ws = wsFactory(wsUrl);
 
 	$scope.connectionStatus = "Connected as " + username;
+	$scope.sheet = {
+			lvl : CHARACTER_INITIAL_LEVEL,
+			xp : CHARACTER_INITIAL_XP,
+			xpNext : CHARACTER_XP_PER_LEVEL_BASE
+	};
 	$scope.log = [];
-	$scope.sheet = {};
 
 	ws.listen(function(data) {
 		var msg = JSON.parse(data);

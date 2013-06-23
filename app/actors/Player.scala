@@ -27,7 +27,6 @@ class Player(username: String) extends Actor with ActorLogging {
 
 		case StartPlaying() => {
 			transmitLogMessage("event", "Your adventure starts ...")
-			transmitStats(Character.INITIAL_LEVEL, Character.INITIAL_XP, Character.XP_PER_LEVEL_BASE)
 
 			val character = context.system.actorOf(Props(new Character(self)))
 			character ! StartLeveling()
