@@ -17,6 +17,7 @@ import play.api.libs.json.JsValue
 
 class Player(username: String) extends Actor with ActorLogging {
 
+	val character = context.system.actorOf(Props(new Character(self)))
 	val (chatEnumerator, chatChannel) = Concurrent.broadcast[JsValue]
 
 	def receive = LoggingReceive {
@@ -28,8 +29,11 @@ class Player(username: String) extends Actor with ActorLogging {
 		case StartPlaying() => {
 			transmitLogMessage("event", "Your adventure starts ...")
 
-			val character = context.system.actorOf(Props(new Character(self)))
 			character ! StartLeveling()
+		}
+
+		case StopPlaying() => {
+			context.stop(self)
 		}
 
 		case SendLogEntry(kind, text) => {
@@ -57,8 +61,13 @@ class Player(username: String) extends Actor with ActorLogging {
 		chatChannel.push(msg)
 	}
 
+	override def postStop() = {
+		context.stop(character)
+	}
+
 }
 
 case class StartPlaying()
+case class StopPlaying()
 case class SendLogEntry(kind: String, text: String)
 case class UpdateStats(lvl: Int, xp: Int, xpNext: Int)

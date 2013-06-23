@@ -3,7 +3,7 @@ the most casual RPG ever
 
 ###### So, what is it?
 
-It's a text-based role-playing game that runs in a browser. You don't have to play it yourself - the characters embark on adventures and level up automatically.
+It's a text-based role-playing game that runs in a browser. You don't play it yourself - the characters embark on adventures and level up automatically.
 
 Sounds awesome? Try it here: http://m1.lazyrpg.eu.cloudbees.net/ (requires a browser that supports HTML5 WebSockets)
 

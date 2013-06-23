@@ -3,8 +3,9 @@ package actors
 import akka.actor.Actor
 import akka.actor.ActorLogging
 import akka.actor.ActorRef
-import akka.event.LoggingReceive
 import akka.actor.Props
+import akka.actor.actorRef2Scala
+import akka.event.LoggingReceive
 
 object Character {
 	val INITIAL_LEVEL = 1
@@ -14,6 +15,8 @@ object Character {
 }
 
 class Character(player: ActorRef) extends Actor with ActorLogging {
+
+	val grinding = context.system.actorOf(Props(new Grinding(self)))
 
 	var level: Int = Character.INITIAL_LEVEL
 	var experience: Int = Character.INITIAL_XP
@@ -26,7 +29,6 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 	def receive = LoggingReceive {
 
 		case StartLeveling() => {
-			val grinding = context.system.actorOf(Props(new Grinding(self)))
 			grinding ! StartGrinding()
 		}
 
@@ -51,6 +53,10 @@ class Character(player: ActorRef) extends Actor with ActorLogging {
 
 			handleLevelUp()
 		}
+	}
+
+	override def postStop() = {
+		context.stop(grinding)
 	}
 
 }

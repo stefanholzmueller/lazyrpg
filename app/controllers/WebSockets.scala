@@ -2,8 +2,10 @@ package controllers
 
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
+
 import actors.Player
 import actors.StartPlaying
+import actors.StopPlaying
 import akka.actor.Props
 import akka.actor.actorRef2Scala
 import akka.pattern.ask
@@ -34,6 +36,7 @@ object WebSockets extends Controller {
 					val iteratee = Iteratee.foreach[JsValue] { _ =>
 						player ! StartPlaying()
 					}.mapDone { _ =>
+						player ! StopPlaying()
 						println("Disconnected: " + username)
 					}
 
