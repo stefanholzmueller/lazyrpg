@@ -18,8 +18,8 @@ Sounds awesome? Try it here: http://m1.lazyrpg.eu.cloudbees.net/ (requires a bro
 
 #### Milestone 2
 
+- [x] Pressing enter in the username field submits the form
 - [ ] Persistence!
-- [ ] Pressing enter in the username field submits the form
 
 #### Other ideas
 

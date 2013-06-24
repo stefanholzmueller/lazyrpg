@@ -12,7 +12,7 @@
 </head>
 <body ng-app="lazyrpg">
 	<div id="login" ng-controller="LoginController">
-		Username: <input id="usernameInput" type="text" maxlength="30" ng-model="username">
+		Username: <input id="usernameInput" type="text" maxlength="30" ng-model="username" ng-keydown="enter($event)">
 		<button ng-click="login()">Enter</button>
 		<ul ng-repeat="error in errors">
 			<li class="error">{{error}}</li>

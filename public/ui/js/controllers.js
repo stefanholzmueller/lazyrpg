@@ -11,6 +11,12 @@ lazyRPG.controller("LoginController", function($scope, $window) {
 			$scope.errors = errors;
 		}
 	}
+	
+	$scope.enter = function($event) {
+		if ($event.keyCode == 13) {
+			$scope.login();
+		}
+	}
 
 	function validateUsername(username) {
 		var errors = [];
