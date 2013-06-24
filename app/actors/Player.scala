@@ -14,6 +14,8 @@ import play.api.libs.json.JsNumber
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import play.api.libs.json.JsValue
+import play.api.libs.json.Json
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
 
 class Player(username: String) extends Actor with ActorLogging {
 
@@ -57,7 +59,7 @@ class Player(username: String) extends Actor with ActorLogging {
 	}
 
 	private def transmitJson(category: String, map: Map[String, JsValue]): Unit = {
-		val msg = JsObject(Seq(category -> JsObject(map.toSeq)))
+		val msg = Json.obj(category -> JsObject(map.toSeq))
 		chatChannel.push(msg)
 	}
 
