@@ -17,8 +17,5 @@ object ApplicationBuild extends Build {
 
 	val main = play.Project(appName, appVersion, appDependencies)
 		.settings(cloudBeesSettings: _*)
-		.settings(
-			CloudBees.username := Some("lazyrpg"),
-			CloudBees.applicationId := Some("m1"))
 
 }
