@@ -16,6 +16,8 @@ object ApplicationBuild extends Build {
 		"org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test")
 
 	val main = play.Project(appName, appVersion, appDependencies)
+		.settings(scalacOptions ++= Seq("-encoding", "UTF-8"))
+		.settings(Keys.fork in (Test) := false)
 		.settings(cloudBeesSettings: _*)
 
 }
