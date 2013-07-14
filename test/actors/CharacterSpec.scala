@@ -9,6 +9,8 @@ import akka.testkit.TestKit
 import actors.GainXp
 import actors.UpdateStats
 import actors.SendLogEntry
+import play.api.test.FakeApplication
+import play.api.test.Helpers.running
 
 class CharacterSpec(_system: ActorSystem) extends TestKit(_system)
 	with ImplicitSender with WordSpec with MustMatchers with BeforeAndAfterAll {
@@ -22,40 +24,46 @@ class CharacterSpec(_system: ActorSystem) extends TestKit(_system)
 	"A Character actor" must {
 
 		"gain experience" in {
-			val character = system.actorOf(Props(new Character(testActor)))
+			running(FakeApplication()) {
+				val character = system.actorOf(Props(new Character(testActor)))
 
-			character ! GainXp(5)
+				character ! GainXp(5)
 
-			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(UpdateStats(1, 5, 100))
+				expectMsgClass(classOf[SendLogEntry])
+				expectMsg(UpdateStats(1, 5, 100))
 
-			character ! GainXp(10)
+				character ! GainXp(10)
 
-			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(UpdateStats(1, 15, 100))
+				expectMsgClass(classOf[SendLogEntry])
+				expectMsg(UpdateStats(1, 15, 100))
+			}
 		}
 
 		"level up" in {
-			val character = system.actorOf(Props(new Character(testActor)))
+			running(FakeApplication()) {
+				val character = system.actorOf(Props(new Character(testActor)))
 
-			character ! GainXp(123)
+				character ! GainXp(123)
 
-			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
-			expectMsg(UpdateStats(2, 23, 150))
+				expectMsgClass(classOf[SendLogEntry])
+				expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
+				expectMsg(UpdateStats(2, 23, 150))
+			}
 		}
 
 		"level up recursively" in {
-			val character = system.actorOf(Props(new Character(testActor)))
+			running(FakeApplication()) {
+				val character = system.actorOf(Props(new Character(testActor)))
 
-			character ! GainXp(500)
+				character ! GainXp(500)
 
-			expectMsgClass(classOf[SendLogEntry])
-			expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
-			expectMsg(SendLogEntry("lvlup", "You have reached level 3!"))
-			expectMsg(SendLogEntry("lvlup", "You have reached level 4!"))
-			expectMsg(UpdateStats(4, 25, 337))
-			expectNoMsg()
+				expectMsgClass(classOf[SendLogEntry])
+				expectMsg(SendLogEntry("lvlup", "You have reached level 2!"))
+				expectMsg(SendLogEntry("lvlup", "You have reached level 3!"))
+				expectMsg(SendLogEntry("lvlup", "You have reached level 4!"))
+				expectMsg(UpdateStats(4, 25, 337))
+				expectNoMsg()
+			}
 		}
 
 	}
